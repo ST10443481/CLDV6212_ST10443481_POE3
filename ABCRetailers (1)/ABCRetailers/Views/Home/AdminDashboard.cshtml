@@ -1,0 +1,111 @@
+﻿@model ABCRetailers.Models.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="d-flex align-items-center mb-4">
+    <div class="bg-primary rounded-circle p-3 me-3">
+        <i class="bi bi-graph-up text-white fs-2"></i>
+    </div>
+    <div>
+        <h1 class="h2 fw-bold mb-0 text-dark">Admin Dashboard</h1>
+        <p class="text-muted mb-0">Manage your store operations</p>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start border-4 border-primary">
+            <div class="card-body py-4">
+                <div class="d-flex align-items-center">
+                    <div class="bg-primary bg-opacity-10 rounded p-3 me-3">
+                        <i class="bi bi-box-seam text-primary fs-3"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold text-dark mb-1">@Model.ProductCount</h3>
+                        <p class="text-muted mb-2">Total Products</p>
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary btn-sm">Manage Products</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start border-4 border-success">
+            <div class="card-body py-4">
+                <div class="d-flex align-items-center">
+                    <div class="bg-success bg-opacity-10 rounded p-3 me-3">
+                        <i class="bi bi-people text-success fs-3"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold text-dark mb-1">@Model.CustomerCount</h3>
+                        <p class="text-muted mb-2">Total Customers</p>
+                        <a asp-controller="Customer" asp-action="Index" class="btn btn-outline-success btn-sm">Manage Customers</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start border-4 border-info">
+            <div class="card-body py-4">
+                <div class="d-flex align-items-center">
+                    <div class="bg-info bg-opacity-10 rounded p-3 me-3">
+                        <i class="bi bi-cart-check text-info fs-3"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold text-dark mb-1">@Model.OrderCount</h3>
+                        <p class="text-muted mb-2">Total Orders</p>
+                        <a asp-controller="Order" asp-action="Manage" class="btn btn-outline-info btn-sm">Manage Orders</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-start border-4 border-warning">
+            <div class="card-body py-4">
+                <div class="d-flex align-items-center">
+                    <div class="bg-warning bg-opacity-10 rounded p-3 me-3">
+                        <i class="bi bi-cloud-arrow-up text-warning fs-3"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold text-dark mb-1">Uploads</h3>
+                        <p class="text-muted mb-2">File Management</p>
+                        <a asp-controller="Upload" asp-action="Index" class="btn btn-outline-warning btn-sm">Manage Files</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-transparent border-0 pb-2 pt-4">
+        <h4 class="h5 fw-bold mb-0 text-dark">
+            <i class="bi bi-lightning-charge text-primary me-2"></i>Quick Actions
+        </h4>
+    </div>
+    <div class="card-body pt-2">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <a asp-controller="Product" asp-action="Create" class="btn btn-primary w-100 py-3 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-plus-circle me-2 fs-5"></i>
+                    <span>Add New Product</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a asp-controller="Order" asp-action="Create" class="btn btn-success w-100 py-3 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-cart-plus me-2 fs-5"></i>
+                    <span>Create Order</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a asp-controller="Order" asp-action="Manage" class="btn btn-info w-100 py-3 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-gear-wide-connected me-2 fs-5"></i>
+                    <span>Manage Orders</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ABC Retailers</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            --hover-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            border-radius: 20px;
+            margin: 0 2px;
+            padding: 8px 16px !important;
+            transition: all 0.3s ease;
+        }
+
+            .nav-link:hover {
+                background-color: rgba(255,255,255,0.15);
+                transform: translateY(-1px);
+            }
+
+        .card {
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+        }
+
+            .card:hover {
+                box-shadow: var(--hover-shadow);
+                transform: translateY(-3px);
+            }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+            .btn:hover {
+                transform: translateY(-2px);
+            }
+
+        .btn-outline-light {
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .alert {
+            border-radius: 10px;
+            border-left: 4px solid;
+            box-shadow: var(--card-shadow);
+        }
+
+        .dropdown-menu {
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            box-shadow: var(--hover-shadow);
+            margin-top: 8px !important;
+        }
+
+        .dropdown-item {
+            border-radius: 6px;
+            margin: 2px 8px;
+            padding: 8px 12px;
+            transition: all 0.2s ease;
+        }
+
+        .footer {
+            background: var(--primary-color) !important;
+            margin-top: auto;
+            border-top: 3px solid var(--accent-color);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            padding: 3px 7px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .product-image {
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            max-width: 1400px;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-basket2 me-2"></i>ABC Retailers
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door me-1"></i>Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Product" asp-action="Index">
+                                <i class="bi bi-grid-3x3-gap me-1"></i>Products
+                            </a>
+                        </li>
+
+                        @if (Context.Session.GetString("Role") == "Admin")
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-shield-check me-1"></i>Admin
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Home" asp-action="AdminDashboard"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Customer" asp-action="Index"><i class="bi bi-people me-2"></i>Customers</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Product" asp-action="Create"><i class="bi bi-plus-circle me-2"></i>Add Product</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="Manage"><i class="bi bi-truck me-2"></i>Manage Orders</a></li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("Role") == "Customer")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Order" asp-action="MyOrders">
+                                    <i class="bi bi-receipt me-1"></i>My Orders
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav align-items-center">
+                        @if (Context.Session.GetString("UserId") != null)
+                        {
+                            <li class="nav-item me-3">
+                                <a class="nav-link position-relative p-2" asp-controller="Cart" asp-action="Index">
+                                    <i class="bi bi-cart3 fs-5"></i>
+                                    <span class="cart-badge">0</span>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-person-fill me-2"></i>@Context.Session.GetString("Username")
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Login" asp-action="Logout">
+                                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Login" asp-action="Index"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-light btn-sm ms-2 px-3" asp-controller="Login" asp-action="Register">Sign Up</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow-1">
+        <div class="container py-4">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show mb-4">
+                    <i class="bi bi-check-circle me-2"></i>@TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-4">
+                    <i class="bi bi-exclamation-octagon me-2"></i>@TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="footer text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 ABC Retailers. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
